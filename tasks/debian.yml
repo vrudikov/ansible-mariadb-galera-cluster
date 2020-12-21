@@ -83,5 +83,5 @@
     state: "present"
     password: "{{ galera_deb_db_password }}"
     login_unix_socket: "{{ mariadb_login_unix_socket }}"
-  no_log: true
+  no_log: false
   become: true

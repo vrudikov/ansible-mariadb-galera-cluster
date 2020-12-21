@@ -36,10 +36,11 @@ Spin up a test 3-node cluster using Vagrant....
 ```bash
 git clone https://github.com/mrlesmithjr/ansible-mariadb-galera-cluster.git
 cd Vagrant
+ansible-galaxy install -r requirements.yml -p roles
 vagrant up
 ```
 
-When you are done testing tear it all down....
+When you are done testing, tear it all down....
 
 ```bash
 ./cleanup.sh
@@ -53,6 +54,7 @@ When you are done testing tear it all down....
 
 ### Ansible roles
 
+-   [ansible-pip](https://github.com/azavea/ansible-pip)
 -   [ansible-etc-hosts](https://github.com/mrlesmithjr/ansible-etc-hosts)
 
 ## Example Playbook

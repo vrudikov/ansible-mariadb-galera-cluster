@@ -29,7 +29,7 @@
 - hosts: galera-cluster-nodes
   become: true
   vars:
-    galera_cluster_bind_address: "{{ ansible_eth1.ipv4.address }}" #'{{ ansible_enp0s8.ipv4.address }}'
+    galera_cluster_bind_address: "{{ ansible_enp0s8.ipv4.address }}"
     mariadb_pri_domain_name: "test.vagrant.local"
   roles:
     - role: ansible-mariadb-galera-cluster

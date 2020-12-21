@@ -25,15 +25,15 @@
           - python-setuptools
         state: present
       when: >
-            ansible_os_family == "Debian"
+        ansible_os_family == "Debian"
 
     - name: installing epel repo (RedHat)
       yum:
         name: "epel-release"
         state: present
       when: >
-            ansible_os_family == "RedHat" and
-            ansible_distribution != "Fedora"
+        ansible_os_family == "RedHat" and
+        ansible_distribution != "Fedora"
 
     - name: installing ansible pre-reqs (RedHat)
       yum:
@@ -46,8 +46,8 @@
         - python-devel
         - python-setuptools
       when: >
-            ansible_os_family == "RedHat" and
-            ansible_distribution != "Fedora"
+        ansible_os_family == "RedHat" and
+        ansible_distribution != "Fedora"
 
     - name: installing ansible pre-reqs (Fedora)
       dnf:
@@ -63,8 +63,8 @@
         - python-setuptools
         - redhat-rpm-config
       when: >
-            ansible_os_family == "RedHat" and
-            ansible_distribution == "Fedora"
+        ansible_os_family == "RedHat" and
+        ansible_distribution == "Fedora"
 
     - name: installing ansible pre-reqs (openSUSE)
       zypper:
@@ -78,18 +78,24 @@
         - python-devel
         - python-setuptools
       when: >
-            ansible_os_family == "openSUSE Leap"
+        ansible_os_family == "openSUSE Leap"
 
     - name: installing python pip
-      easy_install:
-        name: "pip"
-        state: present
+      include_role:
+        name: ansible-pip
+      vars:
+        pip_executable: pip3
 
     - name: installing ansible
       pip:
         name: "ansible"
         state: present
-        version: 1.9.6
+        version: 2.10.4
+
+    - name: installing pymysql
+      pip:
+        name: "pymysql"
+        state: present
 
     - name: ensuring host_vars directory exists
       file:
@@ -107,8 +113,8 @@
       register: host_var
       become: false
       when: >
-            update_host_vars is defined and
-            update_host_vars
+        update_host_vars is defined and
+        update_host_vars
 
     - name: creating missing host_vars
       file:
@@ -126,10 +132,10 @@
       delegate_to: localhost
       become: false
       when: >
-            (update_host_vars is defined and
-            update_host_vars) and
-            (ansible_eth1 is defined or
-            ansible_enp0s8 is defined)
+        (update_host_vars is defined and
+        update_host_vars) and
+        (ansible_eth1 is defined or
+        ansible_enp0s8 is defined)
 
     - name: updating ansible_ssh_host
       lineinfile:
@@ -139,9 +145,9 @@
       delegate_to: localhost
       become: false
       when: >
-            (update_host_vars is defined and
-            update_host_vars) and
-            ansible_eth1 is defined
+        (update_host_vars is defined and
+        update_host_vars) and
+        ansible_eth1 is defined
 
     - name: updating ansible_ssh_host
       lineinfile:
@@ -151,9 +157,9 @@
       delegate_to: localhost
       become: false
       when: >
-            (update_host_vars is defined and
-            update_host_vars) and
-            ansible_enp0s8 is defined
+        (update_host_vars is defined and
+        update_host_vars) and
+        ansible_enp0s8 is defined
 
     - name: updating ansible_ssh_key
       lineinfile:
@@ -163,8 +169,8 @@
       delegate_to: localhost
       become: false
       when: >
-            update_host_vars is defined and
-            update_host_vars
+        update_host_vars is defined and
+        update_host_vars
 
     - name: ensuring host_vars is yaml formatted
       lineinfile:
@@ -175,5 +181,5 @@
       delegate_to: localhost
       become: false
       when: >
-            update_host_vars is defined and
-            update_host_vars
+        update_host_vars is defined and
+        update_host_vars

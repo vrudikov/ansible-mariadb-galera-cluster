@@ -15,6 +15,7 @@ galaxy_info:
         - precise
         - trusty
         - xenial
+        - focal
     - name: Debian
       versions:
         - jessie

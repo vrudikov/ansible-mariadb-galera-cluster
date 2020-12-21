@@ -1,0 +1,6 @@
+/*.iml
+/*.ipr
+/*.iws
+/Vagrant/.vagrant
+/Vagrant/host_vars
+/.shelf/
