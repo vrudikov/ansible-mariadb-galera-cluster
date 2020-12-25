@@ -52,13 +52,16 @@ subnet_ip_start = 200  #Define starting last octet of the subnet range to begin 
 Vagrant.configure(2) do |config|
 
   config.vm.define "loadbalancer" do |loadbalancer|
-    loadbalancer.vm.box = 'ubuntu/focal64'
+    loadbalancer.vm.box = 'ubuntu/bionic64'
     loadbalancer.vm.hostname = "loadbalancer"
     loadbalancer.vm.network "forwarded_port", guest: 3306, host: 3306
     loadbalancer.vm.network "forwarded_port", guest: 8404, host: 8404
     loadbalancer.vm.network :private_network, ip: subnet + "100"
-    vb.customize ["modifyvm", :id, "--cpus", 1]
-    vb.customize ["modifyvm", :id, "--memory", 512]
+
+    loadbalancer.vm.provider "virtualbox" do |vb|
+        vb.customize ["modifyvm", :id, "--cpus", 1]
+        vb.customize ["modifyvm", :id, "--memory", 512]
+    end
 
     loadbalancer.vm.provision :shell, :path => "lb-setup.sh"
   end
