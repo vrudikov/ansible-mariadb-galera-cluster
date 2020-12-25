@@ -71,3 +71,6 @@
 
 - include: cacti.yml
   when: galera_enable_cacti_monitoring
+
+- include: mysqld_exporter.yml
+  when: galera_enable_mysqd_exporter_monitoring

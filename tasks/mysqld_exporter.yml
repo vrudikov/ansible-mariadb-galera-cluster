@@ -1,0 +1,44 @@
+---
+- name: adding mysqld_exporter db user for monitoring
+  mysql_user:
+    host: "localhost"
+    login_unix_socket: "{{ mariadb_login_unix_socket }}"
+    name: "{{ mysqld_exporter_db_user }}"
+    password: "{{ mysqld_exporter_db_password }}"
+    priv: "*.*:PROCESS,SELECT,REPLICATION CLIENT"
+    state: "present"
+    resource_limits:
+      MAX_CONNECTIONS_PER_HOUR: 2
+  become: true
+  tags:
+    - mysqld_exporter_monitoring
+  run_once: true
+  when: >
+    cacti_server is defined
+
+- name: installing mysqld_exporter
+  tags:
+    - mysqld_exporter_monitoring
+  include_role:
+    name: ansible-mysqld_exporter
+  vars:
+    mysqld_exporter_web_listen_address: "0.0.0.0:9104" # set to be acccessible by private IP only
+    mysqld_exporter_dsn: "{{ mysqld_exporter_db_user }}:{{ mysqld_exporter_db_password }}@(localhost:3306)/"
+    mysqld_exporter_collect: [
+        "global_status",
+        "global_variables",
+        "binlog_size",
+        "info_schema.innodb_metrics",
+        "auto_increment.columns",
+        "info_schema.processlist",
+        "info_schema.tablestats",
+        "info_schema.query_response_time",
+        "info_schema.userstats",
+        "info_schema.tables",
+        "perf_schema.tablelocks",
+        "perf_schema.file_events",
+        "perf_schema.eventswaits",
+        "perf_schema.indexiowaits",
+        "perf_schema.tableiowaits"
+    ]
+    mysqld_exporter_no_collect: [ ]

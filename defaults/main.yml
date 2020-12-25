@@ -5,6 +5,13 @@
 cacti_db_password: "cactiuser"
 cacti_db_user: "cactiuser"
 
+# Defines if mysqld_exporter monitoring should be enabled for mysql
+galera_enable_mysqd_exporter_monitoring: false
+
+# Define the mysqld_exporter user info for Prometheus db monitoring
+mysqld_exporter_db_user: "exporter"
+mysqld_exporter_db_password: "exporter"
+
 # Defines if root logins should be allowed from any host
 galera_allow_root_from_any: false
 

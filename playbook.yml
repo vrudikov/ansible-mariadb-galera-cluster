@@ -32,6 +32,7 @@
 #    galera_cluster_bind_address: "{{ ansible_eth1.ipv4.address }}" #'{{ ansible_enp0s8.ipv4.address }}'
     galera_cluster_bind_address: "{{ ansible_enp0s8.ipv4.address }}"
     mariadb_pri_domain_name: "test.vagrant.local"
+    galera_enable_mysqd_exporter_monitoring: true
   roles:
     - role: ansible-mariadb-galera-cluster
   tasks:
