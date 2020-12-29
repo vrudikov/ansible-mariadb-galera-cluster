@@ -1,7 +1,7 @@
 ---
 - name: adding mysqld_exporter db user for monitoring
   mysql_user:
-    host: "localhost"
+    host: "{{ item }}"
     login_unix_socket: "{{ mariadb_login_unix_socket }}"
     name: "{{ mysqld_exporter_db_user }}"
     password: "{{ mysqld_exporter_db_password }}"
@@ -13,8 +13,11 @@
   tags:
     - mysqld_exporter_monitoring
   run_once: true
-  when: >
-    cacti_server is defined
+  with_items:
+    - "{{ ansible_hostname }}"
+    - "127.0.0.1"
+    - "::1"
+    - localhost
 
 - name: installing mysqld_exporter
   tags:

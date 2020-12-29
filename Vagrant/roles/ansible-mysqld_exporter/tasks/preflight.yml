@@ -21,7 +21,7 @@
     that:
       - "':' in mysqld_exporter_web_listen_address"
 
-- name: check collector flags
+- name: Check collector flags
   fail:
     msg: "Collector flags cannot be both disabled and enabled"
   when: item in mysqld_exporter_collect
